@@ -49,6 +49,8 @@ yolo/
 ├── runs/                   # YOLO 자동 생성 로그 (학습 가중치 등)
 ├── rknn-toolkit2/          # RKNN 모델 변환 툴킷 (라이브러리)
 └── args.yaml               # 학습 설정 파일
+
+
 💻 기능별 실행 방법 (PC 환경)src 폴더 내의 코드를 실행하면 videos_input의 영상을 분석하여 videos_output에 결과를 저장합니다.
 
 1. 🏗️ 스마트 회전 반경 (Smart Swing Radius)중장비(굴착기)의 형태를 분석하여 회전 반경을 계산하고, 작업자가 접근하면 경고합니다.Bashpython src/danger_zone.py
@@ -62,6 +64,7 @@ yolo/
 ⚠️ 참고 사항입력 영상: 테스트할 영상은 반드시 videos_input 폴더에 위치해야 합니다.결과 확인: 실행 후 videos_output 폴더를 확인하세요. (파일명: output_...)모델 경로: 모든 코드는 models/best.pt를 기본으로 로드합니다.
 
 🏷️ 라벨 리스트 (Class List)모델이 학습하여 감지할 수 있는 객체 목록입니다.
+
 
 
 ID클래스명 (Class Name)설명 (Description)카테고리
