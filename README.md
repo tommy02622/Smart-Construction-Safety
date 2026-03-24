@@ -1,6 +1,7 @@
 # 🚧 Smart Construction Safety Monitoring System
-> YOLOv8 & Edge AI (Orion Board) 기반 건설 현장 안전 관제 시스템
-> 탄소중립 INNOVATION ACADEMY 5기 최우수상(1위) 수상작 🏆
+> **YOLOv8 & Edge AI (Orion Board) 기반 건설 현장 안전 관제 시스템**
+> 
+> **탄소중립 INNOVATION ACADEMY 5기 최우수상(1위) 수상작 🏆**
 > 
 [![Tech Stack](https://img.shields.io/badge/YOLOv8-00FFFF?style=flat-square&logo=YOLO&logoColor=black)]()
 [![Edge AI](https://img.shields.io/badge/Orion_Board_(NPU)-FF6A00?style=flat-square)]()
