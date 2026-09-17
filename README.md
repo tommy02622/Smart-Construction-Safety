@@ -1,97 +1,39 @@
-# 🚧 Smart Construction Safety Monitoring System
-> **YOLOv8 & Edge AI (Orion Board) 기반 건설 현장 안전 관제 시스템**
-> 
-> **탄소중립 INNOVATION ACADEMY 5기 최우수상 수상작 🏆**
-> 
-[![Tech Stack](https://img.shields.io/badge/YOLOv8-00FFFF?style=flat-square&logo=YOLO&logoColor=black)]()
-[![Edge AI](https://img.shields.io/badge/Orion_Board_(NPU)-FF6A00?style=flat-square)]()
-[![Language](https://img.shields.io/badge/Python_3.9-3776AB?style=flat-square&logo=python&logoColor=white)]()
-[![Framework](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)]()
-> 
-이 프로젝트는 건설 현장의 안전 사고를 예방하기 위해 YOLOv8 객체 인식 기술과 Orion Board(Edge AI)를 활용하여 실시간으로 위험 요소를 감지하고 알림을 제공하는 시스템입니다.
+# Smart Construction Safety
 
----
+YOLOv8 기반 건설 현장 위험 요소 탐지 프로젝트입니다. 산업 현장 이미지와 영상에서 개구부, 불량 덮개, 작업자 및 중장비 주변 상황을 확인하는 PC용 탐지 프로그램을 구현했습니다.
 
-## 📂 폴더 구조 (Directory Structure)
+2025 탄소중립 INNOVATION ACADEMY 5기 최우수상 수상작입니다.
 
-프로젝트의 전체 폴더 구조와 각 폴더의 역할입니다.
+## 담당 작업
 
-```text
-yolo/
-│
-├── src/                    # [핵심] 파이썬 소스 코드 모음
-│   ├── danger_zone.py      # 🏗️ 스마트 회전 반경 (굴착기 작업 반경 감지)
-│   ├── hazard_detection.py # 🕳️ 환경적 추락 위험 (개구부/난간 미설치 감지)
-│   ├── people_count.py     # 👥 작업자/신호수 통합 인원 카운팅
-│   ├── custom_zone.py      # 🖱️ 관리자 지정 위험 구역 (마우스로 그리기)
-│   └── fall_detection.py   # 📉 전도(넘어짐) 감지 (현재 테스트 중)
-│
-├── models/                 # AI 모델 파일 (.pt, .rknn 등)
-│   ├── best.pt             # PC 실행용 YOLO 모델
-│   ├── best.rknn           # 오리온 보드(NPU) 실행용 모델
-│   └── best.onnx           # 변환 중간 파일
-│
-├── videos_input/           # [입력] 테스트할 원본 동영상 (.mp4)
-│   └── Construction_...    # 현장 CCTV 시뮬레이션 영상들
-│
-├── videos_output/          # [출력] AI 감지 결과 영상 (자동 저장됨)
-│   └── output_danger...    # 결과 영상들이 여기에 저장됨
-│
-├── orion_deploy/           # 🚀 오리온 보드 배포용 폴더
-│   ├── best.rknn           # NPU 모델
-│   └── test_npu.py         # 보드 테스트 코드
-│
-├── training_results/       # 학습 결과 리포트
-│   ├── results.csv         # 학습 손실/정확도 그래프 데이터
-│   └── labels.jpg          # 데이터셋 라벨 분포도
-│
-├── images/                 # 데이터셋 원본 이미지 및 테스트 이미지
-├── runs/                   # YOLO 자동 생성 로그 (학습 가중치 등)
-├── rknn-toolkit2/          # RKNN 모델 변환 툴킷 (라이브러리)
-└── args.yaml               # 학습 설정 파일
+- 프로젝트 구조 설계와 안전 이미지 데이터셋 탐색 및 구성
+- 데이터 라벨링, YOLOv8 탐지·세그멘테이션 모델 학습 및 튜닝
+- 학습 모델을 이미지와 영상에 적용하는 프로그램 구현 및 결과 확인
+- Orion Board용 RKNN 모델 변환과 보드 탑재 시도
 
+발표자료 제작과 최종 발표를 제외한 기술 작업을 담당했습니다.
 
-💻 기능별 실행 방법 (PC 환경)src 폴더 내의 코드를 실행하면 videos_input의 영상을 분석하여 videos_output에 결과를 저장합니다.
+## 저장소 구성
 
-1. 🏗️ 스마트 회전 반경 (Smart Swing Radius)중장비(굴착기)의 형태를 분석하여 회전 반경을 계산하고, 작업자가 접근하면 경고합니다.Bashpython src/danger_zone.py
+| 경로 | 내용 |
+| --- | --- |
+| [`src/`](src/) | 위험 구역, 개구부, 인원 및 중장비 관련 PC 추론 코드 |
+| [`models/`](models/) | 학습 모델과 ONNX/RKNN 변환 파일 |
+| [`training_results/`](training_results/) | 학습 로그 및 라벨 분포 |
+| [`runs/segment/`](runs/segment/) | 이미지·영상 탐지 결과 |
+| [`videos_input/`](videos_input/) | 테스트 입력 영상 |
+| [`videos_output/`](videos_output/) | PC 추론 결과 영상 |
+| [`orion_deploy/`](orion_deploy/) | 보드 탑재를 위해 준비한 RKNN 파일 |
 
-2. 🕳️ 환경적 추락 감지 (Hazard Detection)현장의 **개구부(Open Hole)**나 난간 미설치(Missing Guardrail) 구역을 찾아내어 시각화합니다.Bashpython src/hazard_detection.py
+## 확인 가능한 결과
 
-3. 👥 통합 인원 카운팅 (People Counting)작업자와 신호수를 구분하지 않고 전체 인원을 실시간으로 파악합니다.Bashpython src/people_count.py
+- [위험 요소 탐지 이미지](runs/segment/predict3/H-220805_A26_N-03_001_0001.jpg)
+- [라벨 분포](training_results/labels.jpg)
+- [PC 영상 추론 출력](videos_output/output_hazard.mp4)
+- [학습 결과 CSV](training_results/results.csv)
 
-4. 🚧 사용자 정의 위험 구역 (Custom Zone)관리자가 마우스로 직접 위험 구역을 설정합니다.조작법: 왼쪽 클릭(점 찍기) → s키(감지 시작) → r키(초기화)Bashpython src/custom_zone.py
+## 실행 범위
 
-⚠️ 참고 사항입력 영상: 테스트할 영상은 반드시 videos_input 폴더에 위치해야 합니다.결과 확인: 실행 후 videos_output 폴더를 확인하세요. (파일명: output_...)모델 경로: 모든 코드는 models/best.pt를 기본으로 로드합니다.
+`src/`의 스크립트는 PC 환경에서 작성되었으며 모델·영상 경로가 당시 로컬 경로로 지정되어 있습니다. 다른 컴퓨터에서 실행하려면 각 스크립트의 경로를 현재 저장소 위치에 맞게 변경해야 합니다. 공개 저장소에는 전체 학습 데이터셋이 포함되어 있지 않습니다.
 
-🏷️ 라벨 리스트 (Class List)모델이 학습하여 감지할 수 있는 객체 목록입니다.
-
-
-
-ID클래스명 (Class Name)설명 (Description)카테고리
-0Worker작업자 (안전모 착용)사람
-1Signal_man신호수 (형광 조끼/봉)사람
-2Excavator굴착기중장비
-3Dump Truck덤프 트럭중장비
-4Concrete Mixer레미콘중장비
-5Road Roller로드 롤러중장비
-6Forklift지게차중장비
-7Mobile Crane이동식 크레인중장비
-8Truck기타 트럭중장비
-11No Railing난간 미설치 구역위험요소
-13Opened Hatch해치 열림위험요소
-14Bad Cover덮개 불량위험요소
-15Open Hole개구부 (구멍)위험요소
-16Bad Board발판 불량위험요소
-
-
-✅ 프로젝트 To-Do List
-1. 오리온 보드 이식 (Deployment)[ ] PC의 orion_deploy 폴더(모델, 영상, 코드)를 보드로 전송[ ] test_npu.py 실행 후 Input Shape 확인하여 코드 수정[ ] 보드에서 최종 실행 테스트 완료
-
-2. 성능 측정 (Performance)[ ] FPS: 보드 실행 시 초당 프레임 측정[ ] 메모리: 실행 중 RAM 점유율 확인[ ] 전력 소모: 약 5W 예상 (PC 대비 절감 수치 기재 필요
-
-3. 발표 준비 (Presentation)[ ] Best 영상 3개 선별 (회전반경, 위험구역, 카운팅)[ ] 발표 자료(PPT) 제작 및 라벨링 데이터 정리
----
-
-### 💡 팁: VS Code에서 미리보기 방법
-1.  위 내용을 복사해서 `README.md`에 붙여넣고 저장하세요.
-2.  VS Code 우측 상단에 있는 **돋보기 모양 아이콘** (Open Preview to the Side)을 누르거나, 단축키
+`.rknn` 파일은 변환 산출물이지만, Orion Board에서의 최종 실행·FPS·전력 측정 완료를 뜻하지 않습니다. 온디바이스 동작은 탑재를 시도한 단계로 구분합니다.
